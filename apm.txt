@@ -1,0 +1,113 @@
+http://rootjonghyun.tistory.com/7?category=750110
+
+* Apache 설치
+1. Apache 다운로드
+http://apachelounge.com/download/
+
+2.압축해제
+
+d:\apm\Apache24
+
+3. conf 파일 수정
+SRVROOT d:\apm\Apache24
+
+SRVROOT 정의 안되어있으면
+ServerRoot (서버루트)/ DocumnetRoot(저장루트) 변경
+
+
+//////////////////////////////////////////////
+Define SRVROOT "d:\apm\Apache24"
+ServerRoot "${SRVROOT}"
+DocumentRoot "${SRVROOT}/htdocs"
+
+#php7 모듈 추가
+LoadModule php7_module "D:\apm\php7\php7apache2_4.dll"
+AddHandler application/x-httpd-php .php
+# configure the path to php.ini
+PHPIniDir "D:\apm\php7"
+
+SetHandler application/x-httpd-php
+///////////////////////////////////////////
+
+
+4.환경변수 설정
+d:\apm\Apache24\bin;
+
+5.cmd 관리자 권한으로 실행
+httpd.exe -k install
+
+(에러 날 경우 설치 http://www.microsoft.com/en-us/download/details.aspx?id=48145)
+ 
+6. 아파치 서비스를 실행
+
+
+
+
+* php 설치
+- Thread Safe
+
+윈도우의 경우 멀티 쓰레드 방식으로 구동이 되고있으나, PHP는 멀티 프로세스 방식으로 구동이 되고있어 Windows용 PHP는 항상 Thread Safe 방식으로 제공이 되고있었습니다. 이 Thread Safe 방식은 리눅스 같은 OS에서 구동되는 PHP보다는 성능이 저하되지만 Window에 호환된 버전이여서 안정성이 높습니다.
+
+1. php 최신버전 설치(thread)
+https://windows.php.net/download#php-7.0
+
+2. 압축 해제 및 폴더 이동 
+D:\apm\php7
+
+3. php.ini-development 와 php.ini-production 파일 둘중 하나를 파일명을 변경. php.ini-development을 php.ini으로 파일명 변경
+
+4. php.ini 내용 변경 
+extension_dir = "D:\apm\php7\ext"
+
+5. D:\apm\Apache27\htdocs
+phpinfo.php
+<?php  phpinfo(); ?>
+
+6.로컬/phpinfo.php
+
+mysql 다운
+
+1. https://dev.mysql.com/downloads/mysql/
+
+2. 환경변수 => d:\apm\mysql\bin;
+
+3. https://dev.mysql.com/doc/refman/5.7/en/windows-create-option-file.html
+
+my.ini 파일 만들기
+
+4. cmd 관리창 > 
+c:\windows\system32> mysqld.exe --initialize
+
+5. mysql 폴더에 data확인가능
+
+6. mysql\data\ 사용자pc.err 통해 임시 비번 확인
+
+7. cmd 관리창 > 
+c:\apm\mysql\bin> mysqld.exe -install
+
+8. 제어판 -> 관리도구 -> 서비스
+mysql 시작!!
+
+9. cmd 관리자 >
+mysql -u root -p //접속 방법
+password : 사용자pc.err
+
+set password ='1234'; //패스워드 변경
+
+10. 
+\q 나가기!
+
+
+///////////php - mysql 연동
+
+1. C:\php\ext\php_mysqli.dll 을 C:\WINDOWS\system32 에 복사
+
+2. 수정된 php.ini를 c:\windows에 넣기!! 
+
+3.
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
+
+4. my.ini
+default_authentication_plugin=mysql_native_password //추가
+
+
